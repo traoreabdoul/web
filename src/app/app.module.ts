@@ -34,6 +34,7 @@ import { MenuModule } from 'primeng/menu';
 import {FieldsetModule} from 'primeng/fieldset';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ProvidersComponent } from './components/providers/providers.component';
+import { ClientsService } from './shared/services/clients.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import { ProvidersComponent } from './components/providers/providers.component';
 
   ],
   bootstrap: [AppComponent],
-  providers: [MessageService, ConfirmationService, HttpClient]
+  providers: [MessageService, ConfirmationService, HttpClient,ClientsService]
 
 })
 export class AppModule { }
