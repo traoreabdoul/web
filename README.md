@@ -1,6 +1,6 @@
 # App
 
-This is the test 
+This project is for the test 
 
 ## Development server
 
