@@ -1,8 +1,10 @@
+<!-- Créer un utilisateur-->
 <p-dialog
 		[(visible)]="visible"
 		[style]="{width: '500px'}"
-		header="Add new client"
+		header="Edit the client"
 		[modal]="true" styleClass="p-fluid"
+        (onShow)="onShowDialog()"
 		(onHide)="hideDialog()">
 	<form [formGroup]="clientForm" #form="ngForm" >
 		<div class="grid m-2">
@@ -24,7 +26,7 @@
 					  Name is required
 					</div>
 					<div *ngIf="clientForm.controls['name'].errors?.['minlength']">
-						Name must be content minimum 3 charaters
+						Name must be content minimum 3 characters
 					  </div>
 				</div>
 			</div>
@@ -40,13 +42,13 @@
 						[ngClass]="(clientForm.controls['email'].invalid && form.submitted) ? 'ng-invalid ng-dirty': ''">
 				</span>
 				<div *ngIf="(clientForm.controls['email'].invalid && (clientForm.controls['email'].dirty || clientForm.controls['email'].touched)) || 
-				(clientForm.controls['email'].invalid && form.submitted)" 
-				style="color: red;">
+				        (clientForm.controls['email'].invalid && form.submitted)" 
+					    style="color: red;">
 					<div *ngIf="clientForm.controls['email'].errors?.['required']">
-					 Email is required
+					    Email is required
 					</div>
 					<div *ngIf="clientForm.controls['email'].errors?.['email']">
-						Email is invalid
+						Email invalid
 					  </div>
 				</div>
 			</div>
@@ -68,12 +70,12 @@
 					  Phone is required
 					</div>
 					<div *ngIf="clientForm.controls['phone'].errors?.['minlength']">
-						Name must be content minimum 6 charaters
+						Phone must content minimum 6 characters
 					  </div>
 				</div>
 			</div>
             <div class="col-12">
-                <h4>Providers List</h4>
+                <h4>List of provider</h4>
                 <form [formGroup]="providerForm" #form="ngForm" >
                     <div class="grid">
                         <div class="col-10 m-0 p-0">
@@ -86,14 +88,13 @@
                                     formControlName="name" 
                                     [ngClass]="(providerForm.controls['name'].invalid && form.submitted) ? 'ng-invalid ng-dirty': ''">
                             
-							<div *ngIf="(providerForm.controls['name'].invalid && (providerForm.controls['name'].dirty || providerForm.controls['name'].touched)) || 
-									(providerForm.controls['name'].invalid && form.submitted)" 
-									style="color: red;">
+                            <div *ngIf="(providerForm.controls['name'].invalid && form.submitted)" 
+                                    style="color: red;">
                                 <div *ngIf="providerForm.controls['name'].errors?.['required']">
                                   Name is required
                                 </div>
                                 <div *ngIf="providerForm.controls['name'].errors?.['minlength']">
-                                    Name must be content minimum 3 charaters
+                                    Name must content
                                   </div>
                             </div>
                         </div>
@@ -111,8 +112,7 @@
 					[rows]="10" 
 					[paginator]="true"
                     [(selection)]="selectedProviders" 
-					[rowHover]="true" dataKey="_id"
-                 >
+					[rowHover]="true" dataKey="_id">
 					<ng-template pTemplate="body" let-provider let-editing="editing" let-ri="rowIndex">
 						<tr [pEditableRow]="provider">
 							<td style="padding: 0%;margin: 0%;">
@@ -137,10 +137,12 @@
 						</tr>
 					</ng-template>
                 </p-table>
+    
+                
             </div>
 			<div class="col-12 md:col-12">
 				<div class="flex justify-content-end">
-					<p-button type="button" [disabled]="clientForm.invalid" (onClick)="saveClient()" icon="pi pi-check" label="save">
+					<p-button type="button" (onClick)="updateClient()" icon="pi pi-check" label="save">
 					</p-button>
 					<p-button label="Annuler" icon="pi pi-times" styleClass="p-button-sm p-button-text ml-1" (click)="hideDialog()">
 					</p-button>

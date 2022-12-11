@@ -6,79 +6,47 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-//primeng
+//primeng module
 import { ChipsModule } from 'primeng/chips';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ContextMenuModule } from 'primeng/contextmenu';
-import { DropdownModule } from 'primeng/dropdown';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { SliderModule } from 'primeng/slider';
-import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-
-import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api'
-import { CalendarModule } from 'primeng/calendar';
 import { SpeedDialModule } from 'primeng/speeddial';
-import { MenuModule } from 'primeng/menu';
-
-//new
 import {FieldsetModule} from 'primeng/fieldset';
 import { ClientsComponent } from './components/clients/clients.component';
-import { ProvidersComponent } from './components/providers/providers.component';
 import { ClientsService } from './shared/services/clients.service';
-import { AddProviderComponent } from './components/modal/add-provider/add-provider.component';
 import { AddClientComponent } from './components/modal/add-client/add-client.component';
-import { EditProviderComponent } from './components/modal/edit-provider/edit-provider.component';
+import { EditClientComponent } from './components/modal/edit-client/edit-client.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientsComponent,
-    ProvidersComponent,
-    AddProviderComponent,
     AddClientComponent,
-    EditProviderComponent,
-  
+    EditClientComponent,
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MenubarModule,
     HttpClientModule,
     TableModule,
     ToastModule,
-    ToolbarModule,
     ButtonModule,
-
-    MultiSelectModule,
-    ContextMenuModule,
-    DropdownModule,
-    ProgressBarModule,
-    SliderModule,
-
     ChipsModule,
     DialogModule,
-    AutoCompleteModule,
     ConfirmDialogModule,
     ReactiveFormsModule,
     FormsModule,
-    RippleModule,
-
-   
     DividerModule,
-    CalendarModule,
     SpeedDialModule,
-    MenuModule,
     FieldsetModule
 
   ],

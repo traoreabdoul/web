@@ -2,24 +2,24 @@
 <div class="card">
     <div class="flex align-items-center justify-content-between">
         <h1>Manager clients</h1>
-        <button pButton pRipple label="New client" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"></button>
+        <button pButton pRipple label="New client" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openAddDialog()"></button>
     </div>
     <div class="flex align-items-center justify-content-between my-3">
         <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input pInputText #inputSearch type="text" (input)="dt.filterGlobal(inputSearch.value, 'contains')" placeholder="Search..." />
+            <input pInputText #inputSearch type="text" (input)="dt.filterGlobal(inputSearch.value, 'contains')" placeholder="Search" />
         </span>
     </div>
-    <p-table #dt [value]="clients" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" [tableStyle]="{'min-width': '75rem'}"
+    <p-table #dt [value]="clients" [rows]="10" [paginator]="true" [globalFilterFields]="['name','email','phone']" [tableStyle]="{'min-width': '75rem'}"
     [(selection)]="selectedClients" [rowHover]="true" dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    >
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
             <th pSortableColumn="email" style="min-width:15rem">Email <p-sortIcon field="email"></p-sortIcon></th>
             <th pSortableColumn="phone" style="min-width:15rem">Phone <p-sortIcon field="phone"></p-sortIcon></th>
-            <th pSortableColumn="Provider" style="min-width:15rem">Provider <p-sortIcon field="provider"></p-sortIcon></th>
-            <th>Actions </th>
+            <th pSortableColumn="Provider" >Providers <p-sortIcon field="providers"></p-sortIcon></th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-client>
@@ -27,10 +27,14 @@
             <td>{{client.name}}</td>
             <td>{{client.email}}</td>
             <td>{{client.phone}}</td>
-            <td>{{client.providers}}</td>
+            <td >
+                <span **ngForm="let pro of client.providers">
+                   {{pro.name}}
+                </span>
+            </td>
             <td>
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editClient(client)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteClient(client)"></button>
+                <button pButton pRipple type="button" icon="pi pi-pencil" (click)="editClient(client)" class=" p-button-success p-button-outlined"></button>
+                <button pButton pRipple type="button" icon="pi pi-trash"(click)="deleteClient(client)"  class=" p-button-danger p-button-outlined"></button>
             </td>
         </tr>
     </ng-template>
@@ -42,33 +46,12 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="clientDialog" [style]="{width: '500px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
-    <ng-template pTemplate="content">
-    <div class="field">
-        <label for="name">Name</label>
-        <input type="text" pInputText id="name"  required autofocus />
-        <small class="p-error" *ngIf="submitted && !client.name">Name is required.</small>
-    </div>
-    <div class="field">
-        <label for="email">Email</label>
-        <input type="text" pInputText id="email"  required autofocus />
-        <small class="p-error" *ngIf="submitted && !client.email">Email is required.</small>
-    </div>
-    <div class="field">
-        <label for="phone">Phone</label>
-        <input type="text" pInputText id="phone"  required autofocus />
-        <small class="p-error" *ngIf="submitted && !client.name">Phone is required.</small>
-    </div>
-    <div class="field">
-        <label for="provider">Provider</label>
-        <input type="text" pInputText id="provider"  required autofocus />
-        <small class="p-error" *ngIf="submitted && !client.providers">Phone is required.</small>
-    </div>
-    </ng-template>
-    <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-primary" (click)="saveClients()"></button>
-    </ng-template>
-</p-dialog>
+<app-add-client *ngIf="clientAddDialog" [(visible)]="clientAddDialog"
+			  (clientModifie)="onClientModify($event)">
+</app-add-client>
+
+<app-edit-client *ngIf="clientEditDialog" [(visible)]="clientEditDialog"
+[client]="client" (clientModifie)="onClientModify($event)">
+</app-edit-client>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

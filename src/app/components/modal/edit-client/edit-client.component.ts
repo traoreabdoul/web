@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Client } from 'src/app/shared/interfaces/client';
@@ -7,32 +7,28 @@ import { ClientsService } from 'src/app/shared/services/clients.service';
 import { ProviderService } from 'src/app/shared/services/provider.service';
 
 @Component({
-  selector: 'app-add-client',
-  templateUrl: './add-client.component.html',
-  styleUrls: ['./add-client.component.scss']
+  selector: 'app-edit-client',
+  templateUrl: './edit-client.component.html',
+  styleUrls: ['./edit-client.component.scss']
 })
-export class AddClientComponent implements OnInit{
-  
+export class EditClientComponent implements OnInit{
+
   @Input()
   visible!: boolean;
-
 	@Output()
 	visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output()
 	clientModifie: EventEmitter<boolean> = new EventEmitter<boolean>();
 	clientForm: FormGroup = new FormGroup({});
   providerForm: FormGroup = new FormGroup({});
+  @Input()
   client!: Client;
   providers: Provider[] = [];
   provider!: Provider;
-  selectedProviders!: Provider[];
-
+  selectedProviders!: Provider[] | undefined;
 
   constructor(private formBuilder: FormBuilder, private messageService: MessageService,
-              private clientService: ClientsService,
-              private providerService: ProviderService,
-              private confirmationService: ConfirmationService) {}
-
+    private clientService: ClientsService,private providerService: ProviderService,private confirmationService: ConfirmationService) {}
 
   ngOnInit(): void {
     this.getAllProvider()
@@ -47,7 +43,6 @@ export class AddClientComponent implements OnInit{
       
   }
 
-
   /**
 	 * This function hide the dialog
 	 */
@@ -57,25 +52,24 @@ export class AddClientComponent implements OnInit{
 	}
 
   /**
-	 * This function allow to save client information
+	 * This function allow to update client
 	 */
-	saveClient(): void {
+	updateClient(): void {
     const client = this.clientForm.getRawValue()
     client.providers=this.selectedProviders
 		if(this.clientForm.valid){
-					this.clientService.createClient(client).subscribe({
+					this.clientService.updateProdivers(this.client._id,client).subscribe({
 						next: (value) => {
 							this.clientModifie.emit(true);
-							this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Client save successfully', icon: 'pi-file' });
+							this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfull client', icon: 'pi-file' });
 						}, error: (error) => {
-							this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error to save client', icon: 'pi-file' });
+							this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erreur to client', icon: 'pi-file' });
 						}, complete: () => {
 							this.hideDialog();
 						}
 					});	
 		}
   }
-
 
   /**
    * This function allow to delete provider
@@ -101,11 +95,10 @@ export class AddClientComponent implements OnInit{
     });
   }
 
-
   /**
    * This function allow to get all providers
    */
-  getAllProvider(): void {
+  getAllProvider() {
     this.providerService.getAllProviders()
       .subscribe({
         next: (data) => {
@@ -115,10 +108,11 @@ export class AddClientComponent implements OnInit{
       });
   }
 
-  /**
+
+   /**
 	 * This function allow to save provider informations
 	 */
-  saveProvider(): void {
+   saveProvider(): void {
     const provider = this.providerForm.getRawValue()
     if(this.providerForm.valid){
           this.providerService.createProvider(provider).subscribe({
@@ -134,6 +128,20 @@ export class AddClientComponent implements OnInit{
     }
   }
 
+
+  /**
+   * This function intialize all informations before the dialog display
+   */
+  onShowDialog() {
+    this.clientForm.patchValue({
+      _id: this.client._id,
+      name: this.client.name,
+      email: this.client.email,
+      phone: this.client.phone,
+    });
+    this.selectedProviders = this.client.providers
+  }
+
   /**
    * This function allow to update provider informations
    * @param provider current provider
@@ -144,11 +152,12 @@ export class AddClientComponent implements OnInit{
             next: (value) => {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated provider', icon: 'pi-file' });
             }, error: (error) => {
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error to update provider', icon: 'pi-file' });
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Erreur lors de la modification,', icon: 'pi-file' });
             }, complete: () => {
               this.getAllProvider()
             }
           });	
     }
   }
+
 }
