@@ -7,10 +7,26 @@ import {MenuItem} from 'primeng/api';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    ngOnInit(): void {
-        
-    }
-  
+    items: any | MenuItem[];
+
+	ngOnInit() {
+		this.items = [
+			
+			{
+				label: 'Clients',
+				icon: 'pi pi-user pi-file',
+				routerLink: '/client'
+
+			},
+			{
+				label: 'Providers',
+				icon: 'pi pi-tablet pi-file',
+				routerLink: '/provider'
+
+			}
+
+		];
+	}
 
 }
 

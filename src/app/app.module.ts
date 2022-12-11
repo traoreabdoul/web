@@ -32,10 +32,14 @@ import { MenuModule } from 'primeng/menu';
 
 //new
 import {FieldsetModule} from 'primeng/fieldset';
+import { ClientsComponent } from './components/clients/clients.component';
+import { ProvidersComponent } from './components/providers/providers.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ClientsComponent,
+    ProvidersComponent,
   
   ],
   imports: [
