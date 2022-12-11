@@ -121,7 +121,7 @@
 							<td style="padding: 0%;margin: 0%;">
 								<p-cellEditor>
 									<ng-template pTemplate="input">
-										<input pInputText type="text" formControlName="provider.name">
+										<input pInputText type="text" formControlName="name"> 
 									</ng-template>
 									<ng-template pTemplate="output">
 										{{provider.name}}
@@ -129,8 +129,8 @@
 								</p-cellEditor>
 							</td>
 							<td class="text-right" style="padding: 0%;margin: 0%;">
-								<button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"  style="padding: 7px;" class=" p-button-success p-button-outlined"></button>
-								<button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash" style="padding: 7px;" class=" p-button-danger p-button-outlined" (click)="deleteProvider(provider)"></button>
+								<button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"  style="padding: 10px;" class=" p-button-success p-button-outlined"></button>
+								<button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash" style="padding: 10px;" class=" p-button-danger p-button-outlined" (click)="deleteProvider(provider)"></button>
 								<button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="updateProvider(provider)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
 								<button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"  class="p-button-rounded p-button-text p-button-danger"></button>
 							</td>

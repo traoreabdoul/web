@@ -18,13 +18,20 @@ export class AddClientComponent implements OnInit{
 
 	@Output()
 	visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 	@Output()
 	clientModifie: EventEmitter<boolean> = new EventEmitter<boolean>();
+
 	clientForm: FormGroup = new FormGroup({});
+
   providerForm: FormGroup = new FormGroup({});
+
   client!: Client;
+
   providers: Provider[] = [];
+
   provider!: Provider;
+
   selectedProviders!: Provider[];
 
 
@@ -44,7 +51,6 @@ export class AddClientComponent implements OnInit{
     });
     this.providerForm = this.formBuilder.group({
 			name: ['', [Validators.required, Validators.minLength(3)]]});
-      
   }
 
 
@@ -138,8 +144,10 @@ export class AddClientComponent implements OnInit{
    * This function allow to update provider informations
    * @param provider current provider
    */
-  updateProvider(provider? : Provider): void {
+  updateProvider(provider : Provider): void {
+    const providerEdit = this.providerForm.getRawValue()
     if(this.providerForm.valid){
+          provider.name = providerEdit
           this.providerService.updateProdivers(this.provider._id, provider).subscribe({
             next: (value) => {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated provider', icon: 'pi-file' });

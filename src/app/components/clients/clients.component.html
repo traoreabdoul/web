@@ -28,9 +28,10 @@
             <td>{{client.email}}</td>
             <td>{{client.phone}}</td>
             <td >
-                <span **ngForm="let pro of client.providers">
-                   {{pro.name}}
-                </span>
+                <!-- <span *ngForm="let provider of client.providers">
+                   {{provider.name}}
+                </span> -->
+                {{client.providers[0].name}}
             </td>
             <td>
                 <button pButton pRipple type="button" icon="pi pi-pencil" (click)="editClient(client)" class=" p-button-success p-button-outlined"></button>
