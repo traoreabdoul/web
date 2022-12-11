@@ -35,12 +35,18 @@ import {FieldsetModule} from 'primeng/fieldset';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ProvidersComponent } from './components/providers/providers.component';
 import { ClientsService } from './shared/services/clients.service';
+import { AddProviderComponent } from './components/modal/add-provider/add-provider.component';
+import { AddClientComponent } from './components/modal/add-client/add-client.component';
+import { EditProviderComponent } from './components/modal/edit-provider/edit-provider.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientsComponent,
     ProvidersComponent,
+    AddProviderComponent,
+    AddClientComponent,
+    EditProviderComponent,
   
   ],
   imports: [

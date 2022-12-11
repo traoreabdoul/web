@@ -3,7 +3,7 @@ import { Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
 import { Provider } from '../interfaces/provider';
 
-const baseUrl = 'http://localhost:3000/api/v1/providers';
+const baseUrl = 'http://localhost:3002/api/v1/providers';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ const baseUrl = 'http://localhost:3000/api/v1/providers';
 export class ProviderService {
   constructor(private http: HttpClient) { }
 
-  getAllProviders(): Observable<Provider[]> {
+  getAllProviders(): Observable<any> {
     return this.http.get<Provider[]>(baseUrl);
   }
 
@@ -24,7 +24,7 @@ export class ProviderService {
   }
 
   updateProdivers(id: string, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.patch(`${baseUrl}/${id}`, data);
   }
 
   deleteProviders(id: string): Observable<any> {

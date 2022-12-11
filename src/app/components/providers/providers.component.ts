@@ -10,7 +10,8 @@ import { ProviderService } from 'src/app/shared/services/provider.service';
 })
 export class ProvidersComponent implements OnInit{
 
-  providerDialog: boolean = false;
+  providerAddDialog: boolean = false;
+  providerEditDialog: boolean = false;
 
   providers: Provider[] = [];
 
@@ -21,18 +22,18 @@ export class ProvidersComponent implements OnInit{
   submitted: boolean = false;
 
   ngOnInit(): void {
-   
+   this.getAllProvider()
   }
 
   constructor(private providerService: ProviderService, private confirmationService: ConfirmationService, private messageService : MessageService ){}
 
-  openNew(){
+  openAddDialog(){
     this.provider = {
       _id: '',
       name: ''
     };
     this.submitted = false;
-    this.providerDialog = true;
+    this.providerAddDialog = true;
   }
 
   deleteSelectedProviders(){
@@ -49,7 +50,7 @@ export class ProvidersComponent implements OnInit{
 }
 
 hideDialog(){
-  this.providerDialog = false;
+  this.providerAddDialog = false;
   this.submitted = false;
 }
 
@@ -58,7 +59,7 @@ getAllProvider() {
   this.providerService.getAllProviders()
     .subscribe({
       next: (data) => {
-        this.providers = data ? data : [];
+        this.providers = data ? data.data.providers : [];
         console.log(data);
       },
       error: (e) => console.error(e)
@@ -72,7 +73,7 @@ saveProviders(){
 
 editProvider(provider: Provider) {
     this.provider = {...provider};
-    this.providerDialog = true;
+    this.providerEditDialog = true;
 }
 deleteProvider(provider: Provider) {
   this.confirmationService.confirm({
@@ -80,15 +81,26 @@ deleteProvider(provider: Provider) {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          this.providers = this.providers.filter(val => val._id !== provider._id);
-          this.provider = {
-            _id: '',
-            name: ''
-          };
-          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-      }
+				this.providerService.deleteProviders(provider._id).subscribe({
+					next: (v: string) => {
+						this.messageService.add({ severity: 'info', summary: 'Suppression', detail: 'Provider deleted', icon: 'pi-file' });
+						this.providers = this.providers.filter(val => val._id !== provider._id);
+					},
+					error: () => {
+						this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'l\'utilisateur ne peut pas être supprimer', icon: 'pi-file' });
+					}
+				});
+			}
+
   });
 }
+
+onProviderModifie(event?: boolean) {
+  if (event) {
+    this.getAllProvider();
+  }
+}
+
 
 
 }

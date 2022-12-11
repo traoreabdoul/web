@@ -1,0 +1,43 @@
+<!-- Créer un utilisateur-->
+<p-dialog
+		[(visible)]="visible"
+		[style]="{width: '700px'}"
+		header="Edit the provider"
+		[modal]="true" styleClass="p-fluid"
+        (onShow)="ouvertureModal()"
+		(onHide)="fermerModal()">
+	<form [formGroup]="providerForm" #form="ngForm" (ngSubmit)="enregistrerProvider()">
+		<div class="grid">
+			<div class="col-12">
+				<span class="p-float-label mb-1">
+					<span>Name</span>
+					<input 
+						type="text" 
+						maxlength="150" 
+						pInputText 
+						formControlName="name" 
+						[ngClass]="(providerForm.controls['name'].invalid) ? 'ng-invalid ng-dirty': ''" 
+						[ngClass]="(providerForm.controls['name'].invalid && form.submitted) ? 'ng-invalid ng-dirty': ''">
+				</span>
+				<div *ngIf="(providerForm.controls['name'].invalid && (providerForm.controls['name'].dirty || providerForm.controls['name'].touched)) || 
+				        (providerForm.controls['name'].invalid && form.submitted)" 
+					    style="color: red;">
+					<div *ngIf="providerForm.controls['name'].errors?.['required']">
+					  Nom obligatoire
+					</div>
+					<div *ngIf="providerForm.controls['name'].errors?.['minlength']">
+						Le nom doit contenir au moins 3 caractères
+					  </div>
+				</div>
+			</div>
+			<div class="col-12 md:col-12">
+				<div class="flex justify-content-end">
+					<p-button icon="pi pi-check" label="save" type="submit">
+					</p-button>
+					<p-button label="Annuler" icon="pi pi-times" styleClass="p-button-sm p-button-text ml-1" (click)="fermerModal()">
+					</p-button>
+				</div>
+			</div>
+		</div>
+	</form>
+</p-dialog>
